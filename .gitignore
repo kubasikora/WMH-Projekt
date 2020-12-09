@@ -5,3 +5,6 @@ pyvenv.cfg
 etc/
 generated/
 share/
+__pycache__/
+.vscode/
+.ipynb_checkpoints/
