@@ -1,0 +1,45 @@
+
+Projekt zostanie zrealizowany głównie przy użyciu języka Python, wykorzystując środowisko Jupyter Notebook. Do generacji badanej funkcji oraz wszelkich obliczeń numerycznych zostanie użyty pakiet \textbf{numpy}~\cite{numpy}. Do tworzenia maszyn wektorów nośnych wykorzystany zostanie pakiet \textbf{scikit-learn}~\cite{scikit-learn}, który udostępnia moduł \textbf{svm}, w~którym znajdują się obiekty \textbf{SVM} (do klasyfikacji) oraz \textbf{SVR} (do regresji). 
+
+\begin{lstlisting}[language=Python, captionpos=b, caption=Nagłówek klasy sklearn.svm.SVR]
+class sklearn.svm.SVR(*, kernel='rbf', 
+      degree=3, gamma='scale', 
+      coef0=0.0, tol=0.001, C=1.0, 
+      epsilon=0.1, shrinking=True, 
+      cache_size=200, verbose=False, 
+      max_iter=-1)
+\end{lstlisting}
+
+Pakiet ten udostępnia również moduł \textbf{model\_{}selection}, pozwalający na badanie jakości przygotowanych modeli, przeprowadzanie walidacji krzyżowej (funkcja \textbf{cros\_{}val\_{}score} oraz przeszukiwania zupełnego po dostarczonej przestrzeni parametrów (obiekt \textbf{GridSearchCV}. Zostanie on wykorzystany do przeprowadzenia pierwszego eksperymentu, czyli określenia zakresu poszukiwanych parametrów optymalnej maszyny wektorów nośnych. Generacja reguł asocjacyjnych zostanie wyjątkowo wykonana za pomocą języka R, wykorzystując do tego funkcję \textbf{apriori} z~pakietu~\textbf{arules}~\cite{arules}.
+
+\begin{lstlisting}[language=Python, captionpos=b, caption=Nagłówek klasy model\_{}selection.GridSearchCV]
+class model_selection.GridSearchCV(
+      estimator, param_grid, *, 
+      scoring=None, n_jobs=None, 
+      refit=True, cv=None, verbose=0, 
+      pre_dispatch='2*n_jobs',
+      error_score=nan, 
+      return_train_score=False)
+\end{lstlisting}
+
+
+Drugi eksperyment zostanie wykonany za pomocą algorytmu ewolucyjnego, zaimplementowanego w~bibliotece \textbf{scipy.optimize}~\cite{scipy}. Polecenie \textbf{differential\_{}evolution} pozwala na dokładne sterowanie procesem optymalizacji oraz podanie własnej funkcji celu, dzięki czemu możliwym jest badanie różnych wskaźników jakości. 
+
+\begin{lstlisting}[language=Python, captionpos=b, caption=Nagłówek funkcji optimize.differential\_{}evolution]
+def optimize.differential_evolution(
+    func, bounds, args=(), tol=0.01, 
+    strategy='best1bin', maxiter=1000, 
+    popsize=15, mutation=0.5, 
+    seed=None, callback=None, 
+    disp=False, polish=True, 
+    recombination=0.7, atol=0, 
+    updating='immediate', 
+    workers=1, constraints=())
+\end{lstlisting}
+
+Oprócz wymienionych wyżej pakietów i~bibliotek, do realizacji projektu wykorzystane zostaną biblioteki:
+\begin{itemize}
+    \item \textbf{pandas} -- wysokopoziomowa obsługa zbiorów danych, udostępnia obiekt \textbf{DataFrame},
+    \item \textbf{matplotlib} -- generacja i~zapisywanie wykresów,
+    \item \textbf{virtualenv} -- wirtualizacja środowiska i~zarządzanie pakietami.
+\end{itemize}

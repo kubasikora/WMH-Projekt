@@ -21,12 +21,13 @@
 \usepackage{amsmath}
 \usepackage{siunitx}
 \usepackage{booktabs}
+\usepackage{listings,newtxtt}
+\lstset{basicstyle=\ttfamily, keywordstyle=\bfseries}
 \usepackage{subfig}
-\usepackage{pgf-pie}
 
 \urlstyle{same}
 	
-\title{Współczesne metody heurysytczne\\ Sprawozdanie cząstkowe z projektu}
+\title{Współczesne metody heurysytczne\\ Sprawozdanie cząstkowe}
 
 \author{
 Julia Kłos, Jakub Sikora
@@ -37,17 +38,72 @@ julia.klos.stud@pw.edu.pl, jakub.sikora2.stud@pw.edu.pl
 }
 
 \newcommand{\todo}[1]{\textcolor{red}{\textbf{TO DO:} #1}}
-
+\newcommand{\solve}[1]{\textcolor{blue}{\textbf{SOLVE:} #1}}
 \begin{document}
 \maketitle
 
-\section{Temat projektu}
-\label{sec:temat}
+\section{Opis problemu}
+\label{sec:problem}
+\\
+Przedmiotem projektu jest znalezienie optymalnych parametrów maszyny wektorów nośnych (SVM-- \textit{Support Vector Machine}) w zagadnieniu aproksymacji. Aproksymowaną funkcją miała być dowolna ciągła funkcja dwuwymiarowa. W tym przypadku przyjęto funkcję określoną wzorem:
+\begin{equation}
+    \label{eqn:fun}
+    f(x,y) = \log_{10}{|x|} \cos{y} + 0,55(x+y)
+\end{equation}
+\smallskip
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{assets/fun.pdf}
+    \caption{Wykres aproksymowanej funkcji dwuwymiarowej}
+    \label{fig:fun}
+\end{figure}
+W celu znalezienia optymalnych dla problemu parametrów zbadany zostanie wpływ poszczególnych parametrów algorytmu (funkcje jądrowe i ich atrybuty) na jakość klasyfikacji. Co więcej, aby sprawdzić, jak SVR (\textit{Support Vector Machine-- Regression}) poradziłby sobie dla rzeczywistych danych pomiarowych: zasymulowane zostaną one poprzez dodanie do aproksymowanej funkcji szumu. Zbadana zostanie jakość przybliżenia funkcji dla różnych poziomów szumu. 
 
-\section{Propozycja rozwiązania}
-\label{sec:rozwiazanie}
+Jako miary oceny działania algorytmu wybrano:
+\begin{itemize}
+    \item błąd średniokwadratowy ($MSE$)
+    \item średni błąd względny ($MAE$),
+    \item współczynnik determinacji ($R^2$).
+\end{itemize}
 
-\section{Dane}
-\label{sec:dane}
+        \begin{equation}
+            \label{eqn:mse}
+            MSE =\frac{1}{n} \sum_{i=1}^n (x_{i}-\hat{x}_{i})^2 \\[2ex]
+        \end{equation}
+        
+        \begin{equation}
+            \label{eqn:mae}
+            MAE =\frac{1}{n} \sum_{i=1}^n \lvert x_{i}-\hat{x}_{i} \rvert \\[2ex]
+        \end{equation}
+        
+        \begin{equation}
+            \label{eqn:r2}
+            R^{2} =1 - \frac{\sum_{i=1}^n (x_{i}-\hat{x}_{i})^2}{\sum_{i=1}^n (x_{i}-\bar{x}_{i})^2}   \\[2ex]
+        \end{equation}
+        
+        \begin{array}{@{} l >{$}l<{$} @{}}
+            n      & liczba pomiarów\\
+            x_{i} & wartość rzeczywista\\
+            \hat{x}_{i} & wartość przewidziana \\
+            \bar{x}_{i} & wartość średnia $x$
+        \end{array} \\[2ex]
 
+\section{Opis algorytmów}
+\label{sec:algorytm}
+\\
+\input{svr}
+\input{genetic}
+\input{rules}
+
+\input{plan}
+
+\section{Założenia implementacyjne}
+\label{sec:zalozenia}
+\input{implementation}
+\section{Stan pracy}
+\input{stan}
+
+
+\bibliographystyle{abbrv}
+\bibliography{bibliography}
 \end{document}

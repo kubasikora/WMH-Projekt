@@ -1,0 +1,68 @@
+\subsection{SVM}
+\textit{Support Vector Machine}, czyli maszyna wektorów nośnych/podpierających, w podstawowej wersji stosowana jest do klasyfikacji poprzez znalezienie hiperprzestrzeni separującej z maksymalnym marginesem przykłady należące do różnych klas.
+\begin{equation}
+    y(x)= w^{T}x-b = 0
+\end{equation}
+Można zdefiniować równania decyzyjne:
+\begin{equation}
+    \begin{split}
+    \label{eqn:decision}
+     w^{T}x-b \geq 0,  d_{i}= +1\\
+      w^{T}x-b < 0,  d_{i}= -1
+     \end{split}
+\end{equation}
+\begin{array}{@{} l >{$}l<{$} @{}}
+            w      & wektor wag\\
+            x & wektor danych wejściowych\\
+            b & polaryzacja \\
+            d \in \{+1,-1\} & zdefiniowane klasy
+ \end{array} \\[2ex]
+ Co może zostać zapisane w postaci nierówności:
+ \begin{equation}
+   d_{i}(w^{T}x-b) >=1
+ \end{equation}
+  Spełniające je pary punktów $(x_{i}, d_{i})$ definiują wektory nośne (\textit{support vectors}), decydujące o położeniu hiperpłaszczyzny i szerokości marginesu separacji. Określenie decyzji wymaga wyznaczenia wektora wag oraz polaryzacji~\cite{zum}.
+ 
+ Można wykazać, że  maksymalna odległość pomiędzy marginesami (\ref{eqn:decision}) wynosi $M= \frac{2}{\| w \|}$.Rozwiązanie dąży do maksymalizacji marginesu M, co oznacza minimalizowanie wektora $w$. Zagadnienie optymalizacji sprowadza się do minimalizowania po $w$ wyrażenia 
+ \begin{equation}
+ \label{eqn:minimum2}
+     \frac{1}{2}\| w \|^2.
+ \end{equation}
+
+ 
+ Dla problemów nieseparowalnych liniowo występuje konieczność zmniejszenia marginesu separacji, co można zapisać przy użyciu nierówności:
+ \begin{equation}
+     d_{i}(w^{T}x-b)\geq 1 - \epsilon_{i} \
+\end{equation}
+ W tym przypadku określa się granicę decyzyjną dodatkowo poprzez minimalizowanie wartości $\epsilon_{i}$. Dla parametru  generalizującego $C$,deklarowanego przez użytkownika, dąży się do minimalizacji wyrażenia:
+ \begin{equation}
+ \frac{1}{2}\| w \|^2 + C\sum_{i=1}^n\epsilon_{i}
+ \end{equation}
+
+ \subsection{Funkcje jądrowe}
+ Większość spotykanych problemów nie jest jednak liniowo separowalna. Aby móc skorzystać, pomimo tego, z algorytmu SVM, należy skorzystać z możliwości przetransformowania danych do przestrzeni o innym wymiarze, w której dane z dużym prawdopodobieństwem będą separowane liniowo. Dla przypadku nieliniowego funkcja decyzyjna opisana może zostać równaniem:
+ \begin{equation}
+ g(x) = w^{T}\phi(x)+b
+ \end{equation}
+
+ Najczęściej wykorzystywane funkcje jądrowe to:
+ \begin{itemize}
+      \item liniowa,
+    \item wielomianowa,
+    \item radialna (\textit{rbf}),
+    \item sigmoidalna.
+ \end{itemize}
+ W tym zagadnieniu zazwyczaj wykorzystywana jest sztuczka jądrowa, która nie wymaga bezpośredniego transformowania atrybutów, a jedynie wyznaczania wartości funkcji jądrowej, bez definiowania nowych atrybutów.
+ \subsection{SVR}
+ \textit{Support Vector Regression} (SVR) wykorzystuje te same reguły co SVM, jednak do rozwiązywania problemów związanych z aproksymacją funkcji. 
+ W regresji dąży się do minimalizowania błędu. Wykorzystując maszynę wektorów nośnych do tego zagadnienia, staramy się dopasować błąd do pewnego progu. Błąd jest minimalizowany (chociaż częściowo jest tolerowany), poprzez dopasowywanie hiperpłaszczyzny, maksymalizując margines.
+ 
+W ramach projektu zbadany zostanie wpływ na wyniki regresji następujących parametrów:
+\begin{itemize}
+    \item wybranej funkcji jądrowej (liniowej, wielomianowej, radialnej i sigmoidalnej),
+    \item parametr regularyzacji $C$,
+    \item parametr marginesu błędu $\varepsilon$,
+    \item parametr $\gamma$ (dla funkcji jądrowej: wielomianowej, radialnej i sigmoidalnej),
+    \item stopień wielomianu $d$ (tylko wielomianowa),
+    \item wyraz wolny $c_{0}$ (wielomianowa i~sigmoidalna).
+\end{itemize}

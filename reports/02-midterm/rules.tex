@@ -1,0 +1,14 @@
+\subsection{Reguły asocjacyjne}
+
+Do interpretacji uzyskanych wyników, wykorzystany zostanie algorytm \emph{apriori} do indukcji reguł asocjacyjnych~\cite{agrawal1996fast}. Reguły asocjacyjne opisują cechy zbioru danych powiązanych ze sobą w~pewien sposób. Każda reguła ma postać:
+
+\begin{center}
+    Jeżeli \emph{poprzednik}, to \emph{następnik} 
+\end{center}
+
+Z~każdą regułą można związać dwie miary: wsparcia oraz ufności. Miara wsparcia opisuje jak często w~danym zbiorze danych, w~jednej transakcji, występują zarówno poprzednik oraz następnik reguły. Ufność reguły opisuje prawdopodobieństwo warunkowe pojawienia się następnika reguły, pod warunkiem że wystąpił jej poprzednik.
+
+Podstawowym algorytmem automatycznej indukcji reguł asocjacyjnych jest algorytm \emph{apriori}. Opiera się on na generacji częstych zbiorów, których wsparcie jest większe niż założony próg. Algorytm generuje drzewo zbiorów, odcinając co iterację wszystkie zbiory uznane za nieczęste. Dzięki przycinaniu, algorytm znacząco zmniejsza liczbę przejść przez cały zbiór danych w~celu policzenia wsparcia.
+
+Aby wygenerować reguły asocjacyjne ze zbioru danych numerycznych, należy te dane zdyskretyzować oraz zamienić do formatu transakcyjnego. Zdecydowaliśmy się na wprowadzenie wprowadzenie sztucznego podziału wartości $$U = \{maly, sredni, duzy\},$$
+dzięki czemu otrzymane reguły będą czytelne i~proste do interpretacji~\cite{agrawal1996fast}.
