@@ -1,0 +1,13 @@
+\section{Podsumowanie}
+\label{sec:podsumowanie}
+
+W~ramach projektu zbadano zagadnienie maszyny wektorów nośnych w~zagadnieniu regresji. Za pomocą przeszukiwania zupełnego, zbadano wpływ poszczególnych parametrów oraz zastosowanych funkcji jądrowych, na jakość modeli. Wiedza wyniesiona z~przeszukiwania, została zapisana w~postaci zbioru reguł asocjacyjnych. Na podstawie reguł, zawężono przedziały zainteresowań do optymalizacji parametrów, przeprowadzonej za pomocą algorytmu ewolucyjnego. Najlepsze modele zostały dodatkowo przetestowane na zaszumionych danych wejściowych, badając wpływ mocy szumu na jakość modelu. Wpływ mocy szumu na jakość modeli opartych o~SVM, został zestawiony z~wpływem szumu na inny, prosty model regresji. Ostatecznie, udało się uzyskać kilka modeli, które skutecznie mogłyby sobie poradzić z~zadaniem regresji, w~środowisku produkcyjnym.
+
+
+\subsubsection{Wnioski}
+\label{subsec:wnioski}
+Maszyny wektorów nośnych są użytecznym narzędziem do tworzenia modeli, zarówno w~zadaniu klasyfikacji, jak i~regresji. Wyniki uzyskane w~sekcji~\ref{sec:szum}, potwierdzają postawioną tezę, iż modele te dobrze spisują się podczas pracy z~danymi obarczonymi szumem losowym. Potwierdziły się również nasze oczekiwania dotyczące radialnej funkcji jądrowej. Uzyskane wyniki, zarówno w~sekcji~\ref{sec:parametry}, jak i~w~sekcji~\ref{sec:optymalizacja}, jednoznacznie potwierdzają jej wyższość nad innymi funkcjami jądrowymi.
+
+Bardzo pomocnym narzędziem w~uczeniu maszynowym okazują się mechanizmy optymalizacji. Dzięki przeszukiwaniu zupełnemu, udało nam się uzyskać bardzo dużą wiedzę (wyekstrahowaną automatycznie za pomocą reguł) na temat wpływu poszczególnych parametrów, na jakość modeli. Optymalizacja algorytmem ewolucyjnym, pozwoliła nam na dobór jak najlepszych wartości, tak aby móc uzyskać najlepsze możliwe wartości wskaźników jakości. 
+
+Ważną kwestią w~optymalizacji jest niestety czas obliczeń. Dla bardziej złożonych funkcji jądrowych, uczenie modelu zajmuje bardzo dużo czasu, co skutecznie utrudnia przeprowadzanie procesu optymalizacji. Z~tego powodu, lepiej jest korzystać z~prostszych modeli, dla których możemy dobrać idealne parametry, niż z~bardziej złożonych, które potencjalnie mogą dać jeszcze lepsze wyniki, jednak znalezienie odpowiednich parametrów, które byłyby w~stanie zapewnić takie rezultaty, jest zadaniem zbyt czasochłonnym i~złożonym.

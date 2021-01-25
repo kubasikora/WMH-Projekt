@@ -1,0 +1,102 @@
+\section{Optymalizacja modeli algorytmem ewolucyjnym}
+\label{sec:optymalizacja}
+
+Na podstawie wyników z~poprzedniej sekcji, ustaliliśmy sensowne przedziały dla każdego badanego parametru i~następnie uruchomiliśmy proces optymalizacji algorytmem ewolucyjnym. W~tym celu wykorzystaliśmy gotową implementację algorytmu ewolucyjnego, zaimplementowanego w~bibliotece \textbf{scipy.optimize}~\cite{scipy}. Polecenie \textbf{differential\_{}evolution} pozwala na dokładne sterowanie procesem optymalizacji, ustawienie ograniczeń oraz podanie własnej funkcji celu, dzięki czemu możliwym jest badanie różnych, złożonych wskaźników jakości. 
+
+\begin{lstlisting}[language=Python, captionpos=b, caption=Nagłówek funkcji \texttt{differential\_{}evolution}]
+def optimize.differential_evolution(
+    func, bounds, args=(), tol=0.01, 
+    strategy='best1bin', maxiter=1000, 
+    popsize=15, mutation=0.5, 
+    seed=None, callback=None, 
+    disp=False, polish=True, 
+    recombination=0.7, atol=0)
+\end{lstlisting}
+
+Na podstawie reguł otrzymanych w~sekcji~\ref{sec:parametry}, przeprowadziliśmy eksperymenty dla wszystkich czterech funkcji jądrowych. W~tabelach~\ref{tab:optim-linear}, \ref{tab:optim-rbf}, \ref{tab:optim-poly} oraz~\ref{tab:optim-sigmoid} zamieszczone zostały wyniki procesu optymalizacji. Przedstawione wskaźniki jakości zostały obliczone na zbiorze testowym. Aby móc uzyskać wynik w~rozsądnym czasie, ustawiliśmy maksymalną liczbę iteracji, przez co nie wszędzie udało się osiągnąć minimum.
+
+\begin{table}[htb]
+    \centering
+    \resizebox{\linewidth}{!}{%
+    {\tabulinesep=1.2mm
+   \begin{tabu} {|c|c|c|c|}
+        \hline
+        parametry & MAE & MSE & $R^2$ \\ [0.5ex]
+        \hline\hline
+        \parbox{2.5cm}{$C=64,76$ \\ $\varepsilon=6,793 \cdot 10^{-3}$} & $0,413$ & $0,247$ & $0,732$ \\ 
+        \hline
+        \parbox{2.5cm}{$C=21,62$ \\ $\varepsilon=1,343 \cdot 10^{-3}$} & $0,413$ & $0,2475$ & $0,732$ \\ 
+        \hline
+        \parbox{2.5cm}{$C=6,092$ \\ $\varepsilon=2,85\cdot 10^{-3}$} & $0,413$ & $0,2475$ & $0,732$ \\ 
+        \hline
+    \end{tabu}}}
+    \caption{Wyniki procesu optymalizacji wskaźników jakości za pomocą algorytmu ewolucyjnego dla liniowej funkcji jądrowej}
+    \label{tab:optim-linear}
+\end{table}
+
+\begin{table}[htb]
+    \centering
+    \resizebox{\linewidth}{!}{%
+    {\tabulinesep=1.2mm
+    \begin{tabu} {|c|c|c|c|}
+        \hline
+        parametry & MAE & MSE & $R^2$ \\ [0.5ex]
+        \hline\hline
+        \parbox{2.5cm}{ $C=7,7144$ \\ $\varepsilon=1,036 \cdot 10^{-2}$ \\ $\gamma=24,5761$ } & $8,892 \cdot 10^{-3}$ & $8,605 \cdot 10^{-5}$ & $0,99$ \\ 
+        \hline
+        \parbox{2.5cm}{$C=7,8973$ \\ $\varepsilon=2,07 \cdot 10^{-2}$ \\ $\gamma=30,1051$} & $1,8 \cdot 10^{-2}$ & $3,5 \cdot 10^{-4}$ & $0,99$ \\ 
+        \hline
+        \parbox{2.5cm}{$C=62,901$ \\ $\varepsilon=1,902\cdot 10^{-3}$ \\ $\gamma=21,7312$} & $7,844 \cdot 10^{-8}$ & $2,234 \cdot 10^{-4}$ & $0,99$ \\ 
+        \hline
+    \end{tabu}}}
+    \caption{Wyniki procesu optymalizacji wskaźników jakości za pomocą algorytmu ewolucyjnego dla radialnej funkcji jądrowej}
+    \label{tab:optim-rbf}
+\end{table}
+
+\begin{table}[htb]
+    \centering
+    \resizebox{\linewidth}{!}{%
+    {\tabulinesep=1.2mm
+   \begin{tabu} {|c|c|c|c|}
+        \hline
+        parametry & MAE & MSE & $R^2$ \\ [0.5ex]
+        \hline\hline
+        \parbox{2.5cm}{$C=89,2653$ \\ $\varepsilon=5,399\cdot 10^{-2}$ \\ $c_{0}=7,5099$} & $0,6553$ & $0,7438$ & $0,1973$ \\ 
+        \hline
+        \parbox{2.5cm}{$C=70,9637$ \\ $\varepsilon=1,422$ \\ $c_{0}=7,5099$} & $0,43$ & $0,282$ & $0,695$ \\ 
+        \hline
+        \parbox{2.5cm}{$C=50,368$ \\ $\varepsilon=1,5026$ \\ $c_{0}=0,8776$} & $0,435$ & $0,2839$ & $0,693$ \\ 
+        \hline
+    \end{tabu}}}
+    \caption{Wyniki procesu optymalizacji wskaźników jakości za pomocą algorytmu ewolucyjnego dla sigmoidalnej funkcji jądrowej}
+    \label{tab:optim-sigmoid}
+\end{table}
+
+
+
+
+\begin{table}[htb]
+    \centering
+    \resizebox{\linewidth}{!}{%
+    {\tabulinesep=1.2mm
+   \begin{tabu} {|c|c|c|c|}
+        \hline
+        parametry & MAE & MSE & $R^2$ \\ [0.5ex]
+        \hline\hline
+        \parbox{2.5cm}{$d=7$ \\ $C=52,4748$ \\ $\varepsilon=2,8316\cdot 10^{-3}$ \\  $c_{0}=9,45789$} & $5,941 \cdot 10^{2}$ & $6,029 \cdot 10^{5}$ & $-6,5\cdot 10^{5}$ \\ 
+        \hline
+        \parbox{2.5cm}{$d=6$ \\ $C=98,0516$ \\ $\varepsilon=1,403\cdot 10^{-2}$ \\ $c_{0}=9,8968$} & $3,103 \cdot 10^{1}$ & $1,4\cdot 10^{4}$ & $-1,52\cdot 10^{3}$ \\ 
+        \hline
+        \parbox{2.5cm}{$d=4$ \\ $C=0,34617$ \\ $\varepsilon=0,4113$ \\ $c_{0}=2,253$} & $0,3699$ & $0,2049$ & $0,778$ \\ 
+        \hline
+    \end{tabu}}}
+    \caption{Wyniki procesu optymalizacji wskaźników jakości za pomocą algorytmu ewolucyjnego dla wielomianowej funkcji jądrowej}
+    \label{tab:optim-poly}
+\end{table}
+
+
+Dla wszystkich czterech badanych funkcji jądrowych udało odnaleźć się zadowalające modele, aproksymujące zadaną funkcję. Zgodnie z~naszymi oczekiwaniami, najlepsze rezultaty udało się uzyskać dla funkcji radialnej. Wskaźniki $MSE$ oraz $MAE$ osiągnęły wartości bliskie zeru, natomiast wskaźnik $R^2$ osiągnął wartość bliską maksymalnej, czyli jedynce. 
+
+Zaskakująco dobry wynik został uzyskany przez maszynę z~liniową funkcją jądrową. Wyniki wskaźników jakości odbiegają od najlepszych, jednak z~racji na prostotę modelu, czas zarówno uczenia jak i~obliczenia wyniku są najkrótsze ze wszystkich, co jest jego niewątpliwą zaletą. W~niektórych zastosowaniach, przykładowo w~systemach czasu rzeczywistego, parametry szybkościowe mogą być istotniejsze niż rzeczywista jakość modelu.
+
+Nie wszystkie próby optymalizacji zakończyły się pełnym sukcesem. Dla funkcji wielomianowej oraz sigmoidalnej, nie udało się znaleźć takich zestawów parametrów, które skutecznie minimalizowałyby funkcję celu. W~przypadkach gdy udało się już znaleźć pewne minimum, to rzeczywista jakość modelu nie odbiegała znacznie od tej uzyskanej dla liniowej funkcji jądrowej. Fakt, iż funkcje te implikują znacznie większą złożoność modelu sprawia, że zgodnie z~zasadą brzytwy Ockhama, modele tego typu klasyfikujemy na końcu stawki, za modelami z~radialną i~liniową funkcją jądrową.

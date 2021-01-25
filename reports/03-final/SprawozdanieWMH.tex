@@ -1,0 +1,57 @@
+\documentclass{article}
+\pdfpagewidth=8.5in
+\pdfpageheight=11in
+
+\usepackage{../WMHreport}
+% Use the postscript times font!
+\usepackage{times}
+\usepackage{soul}
+\usepackage{url}
+\usepackage{xcolor}
+\usepackage{polski}
+\usepackage[polish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{luainputenc}
+\usepackage[hidelinks]{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{caption}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage{tabu}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{listings,newtxtt}
+\lstset{basicstyle=\ttfamily, keywordstyle=\bfseries}
+\usepackage{subfig}
+\newcommand{\todo}[1]{\textcolor{red}{\textbf{TO DO:} #1}}
+\newcommand{\solve}[1]{\textcolor{blue}{\textbf{SOLVE:} #1}}
+\urlstyle{same}
+	
+\title{Współczesne metody heurysytczne\\ Sprawozdanie końcowe}
+
+\author{
+Julia Kłos, Jakub Sikora
+\affiliations
+numery albumów: 283607, 283418 \\
+\emails
+julia.klos.stud@pw.edu.pl, jakub.sikora2.stud@pw.edu.pl
+}
+
+
+\begin{document}
+\maketitle
+
+\input{tex/problem} % opis problemu i aproksymowanej funkcji
+\input{tex/algorytmy} % opis zastosowanych algorytmów
+\input{tex/plan} % plan eksperymentów
+\input{tex/parametry} % opis przeszukiwania przestrzeni parametrów
+\input{tex/optymalizacja} % opis optymalizacji parametrów
+\input{tex/szumy} % opis badań odporności na szum w danych
+\input{tex/podsumowanie} % wnioski i podsumowanie projektu
+
+\bibliographystyle{abbrv}
+\bibliography{bibliography}
+\end{document}

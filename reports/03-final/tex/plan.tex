@@ -1,0 +1,26 @@
+\section{Plan eksperymentów}
+W~ramach projektu wykonane zostaną trzy eksperymenty:
+\begin{itemize}
+    \item badanie ogólnego zachowania wskaźników jakości w~zależności od parametrów funkcji jądrowych,
+    \item optymalizacja parametrów funkcji jądrowej w~celu uzyskania jak najlepszego modelu,
+    \item badanie wpływu szumu na jakość modelu.
+\end{itemize}
+
+W~celu zbadania ogólnego zachowania wskaźników jakości w~zależności od parametrów funkcji jądrowych, wykorzystany zostanie algorytm przeszukiwania zupełnego po przestrzeni dostępnych parametrów. Badana przestrzeń zostanie podzielona w~taki sposób aby rozważać tylko punkty o~różnych rzędach wielkości. Dla każdego zestawu parametrów zostanie przygotowany model SVR, którego wskaźniki jakości zostaną obliczone za pomocą pięciokrotnej walidacji krzyżowej.
+
+Do interpretacji uzyskanych wyników, zostaną wykorzystane reguły asocjacyjne. Takie podejście pozwoli na automatyczne wyciągnięcie wniosków na temat pożądanych wartości poszczególnych parametrów, w~przypadku gdy nie będzie możliwym wykreślenie charakterystyki na wykresie.
+
+W~drugim kroku, za pomocą algorytmu ewolucyjnego dokonamy optymalizacji parametrów ze względu na badane wskaźniki jakości. Korzystając z~wiedzy z~pierwszego eksperymentu, zawęzimy przedział poszukiwanych parametrów, tak aby ograniczyć ilość potrzebnych obliczeń do minimum. Dla każdej badanej funkcji jądrowej, proces optymalizacji zostanie przeprowadzony ze względu na jeden z~badanych wskaźników jakości: błąd średniokwadratowy, średni błąd względny oraz współczynnik determinancji.
+
+Tematem ostatniego eksperymentu, będzie zbadanie działania zoptymalizowanych modeli w~obliczu zaszumionych danych. Na oryginalną funkcję~\ref{fig:fun} zostanie nałożony biały, addytywny, gaussowski szum o~różnych poziomach mocy. Dla każdego badanego poziomu, zostaną zbadane wskaźniki jakości zarówno na zbiorze trenującym jak i~zbiorze walidacyjnym. Celem tego eksperymentu będzie określenie dla jakiego poziomu szumu model zaczyna znacząco tracić na swojej jakości.
+
+Projekt zostanie zrealizowany głównie przy użyciu języka Python, wykorzystując środowisko Jupyter Notebook. Do generacji badanej funkcji oraz wszelkich obliczeń numerycznych zostanie użyty pakiet \textbf{numpy}~\cite{numpy}. Do tworzenia maszyn wektorów nośnych wykorzystany zostanie pakiet \textbf{scikit-learn}~\cite{scikit-learn}, który udostępnia moduł \textbf{svm}. W~module tym znajdują się obiekty \textbf{SVM} (do klasyfikacji) oraz \textbf{SVR} (do regresji). 
+
+\begin{lstlisting}[language=Python, captionpos=b, caption=Nagłówek klasy sklearn.svm.SVR]
+class sklearn.svm.SVR(*, kernel='rbf', 
+      degree=3, gamma='scale', 
+      coef0=0.0, tol=0.001, C=1.0, 
+      epsilon=0.1, shrinking=True, 
+      cache_size=200, verbose=False, 
+      max_iter=-1)
+\end{lstlisting}

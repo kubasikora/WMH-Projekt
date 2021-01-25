@@ -1,0 +1,117 @@
+\section{Opis algorytmów}
+\label{sec:algorytm}
+
+\subsection{SVM}
+\label{subsec:svm}
+
+\textit{Support Vector Machine}, czyli maszyna wektorów nośnych/podpierających, w podstawowej wersji stosowana jest do klasyfikacji poprzez znalezienie hiperprzestrzeni separującej z maksymalnym marginesem przykłady należące do różnych klas.
+
+\begin{equation}
+    y(x)= w^{T}x-b = 0
+\end{equation}
+
+Można zdefiniować równania decyzyjne:
+\begin{equation}
+    \begin{split}
+    \label{eqn:decision}
+     w^{T}x-b \geq 0,  d_{i}= +1\\
+      w^{T}x-b < 0,  d_{i}= -1
+     \end{split}
+\end{equation}
+
+
+\noindent
+$\displaystyle
+\begin{array}{ll}
+    w      & \text{wektor wag}\\
+    x & \text{wektor danych wejściowych} \\
+    b & \text{polaryzacja} \\
+    d \in \{+1,-1\} & \text{zdefiniowane klasy}
+ \end{array}
+$
+ 
+Ostatecznie, całość może zostać zapisana w postaci nierówności:
+ \begin{equation}
+   d_{i}(w^{T}x-b) >=1
+ \end{equation}
+ 
+Spełniające je pary punktów $(x_{i}, d_{i})$ definiują wektory nośne (\textit{support vectors}), decydujące o położeniu hiperpłaszczyzny i szerokości marginesu separacji. Określenie decyzji wymaga wyznaczenia wektora wag oraz polaryzacji~\cite{zum}.
+ 
+Można wykazać, że  maksymalna odległość pomiędzy marginesami (\ref{eqn:decision}) wynosi $M= \frac{2}{\| w \|}$.Rozwiązanie dąży do maksymalizacji marginesu M, co oznacza minimalizowanie wektora $w$. Zagadnienie optymalizacji sprowadza się do minimalizowania po $w$ wyrażenia 
+\begin{equation}
+\label{eqn:minimum2}
+    \frac{1}{2}\| w \|^2.
+\end{equation}
+
+ 
+Dla problemów nieseparowalnych liniowo występuje konieczność zmniejszenia marginesu separacji, co można zapisać przy użyciu nierówności:
+
+\begin{equation}
+     d_{i}(w^{T}x-b)\geq 1 - \epsilon_{i} \
+\end{equation}
+
+W tym przypadku określa się granicę decyzyjną dodatkowo poprzez minimalizowanie wartości $\epsilon_{i}$. Dla parametru  generalizującego $C$, deklarowanego przez użytkownika, dąży się do minimalizacji wyrażenia:
+
+\begin{equation}
+    \frac{1}{2}\| w \|^2 + C\sum_{i=1}^n\epsilon_{i}
+\end{equation}
+
+\subsection{Funkcje jądrowe}
+\label{subsec:kernel}
+
+Większość spotykanych problemów nie jest jednak liniowo separowalna. Aby móc skorzystać, pomimo tego, z algorytmu SVM, należy skorzystać z możliwości przetransformowania danych do przestrzeni o innym wymiarze, w której dane z dużym prawdopodobieństwem będą separowane liniowo. Dla przypadku nieliniowego funkcja decyzyjna opisana może zostać równaniem:
+
+\begin{equation}
+ g(x) = w^{T}\phi(x)+b
+ \end{equation}
+
+Najczęściej wykorzystywane funkcje jądrowe to:
+\begin{itemize}
+    \item liniowa,
+    \item wielomianowa,
+    \item radialna (\textit{rbf}),
+    \item sigmoidalna.
+\end{itemize}
+W tym zagadnieniu zazwyczaj wykorzystywana jest sztuczka jądrowa, która nie wymaga bezpośredniego transformowania atrybutów, a jedynie wyznaczania wartości funkcji jądrowej, bez definiowania nowych atrybutów.
+
+\subsection{SVR}
+\label{subsec:svr}
+
+\textit{Support Vector Regression} (SVR) wykorzystuje te same reguły co SVM, jednak do rozwiązywania problemów związanych z aproksymacją funkcji. W regresji dąży się do minimalizowania błędu. Wykorzystując maszynę wektorów nośnych do tego zagadnienia, staramy się dopasować błąd do pewnego progu. Błąd jest minimalizowany (chociaż częściowo jest tolerowany), poprzez dopasowywanie hiperpłaszczyzny, maksymalizując margines.
+ 
+W ramach projektu zbadany zostanie wpływ na wyniki regresji następujących parametrów:
+\begin{itemize}
+    \item wybranej funkcji jądrowej (liniowej, wielomianowej, radialnej i sigmoidalnej),
+    \item parametr regularyzacji $C$,
+    \item parametr marginesu błędu $\varepsilon$,
+    \item parametr $\gamma$ (dla funkcji jądrowej: wielomianowej, radialnej i sigmoidalnej),
+    \item stopień wielomianu $d$ (tylko wielomianowa),
+    \item wyraz wolny $c_{0}$ (wielomianowa i~sigmoidalna).
+\end{itemize}
+
+\subsection{Algorytm ewolucyjny}
+\label{subsec:evolution}
+Algorytm ewolucyjny to metoda optymalizacyjna przeszukująca przestrzeń rozwiązań, którego idea została zaczerpnięta z ewolucji. Niezależnie od rozwiązywanego problemu, pojęcia związane z tą metodą zostały użyczone bezpośrednio z biologii. Kolejne generacje gatunku mają być jak najlepiej przystosowane do otaczającego środowiska, eliminując zaadaptowane osobniki. 
+
+\textit{Osobniki}, czyli podstawowe jednostki (przykładowe rozwiązania) podlegające ewolucji, której celem jest stworzenie reprezentanta (znalezienie rozwiązania) możliwie najlepszego. \textit{Fenotypem} nazywamy wygląd zewnętrzy osobnika (czyli funkcja końcowa), a \textit{genotypem} zbiór informacji, stanowiący jego pełen opis. \textit{Populacja} to z kolei zespół osobników przebywających we wspólnym
+środowisku. Genotyp jest stały w trakcie życia osobnika, a modyfikacje następują w wyniku rozmnażania. Fenotyp odzwierciedla dopasowanie osobnika do środowiska i to na jego podstawie dokonywana jest selekcja. Na zmiany w fenotypie wpływają zmiany w genotypie, które są głównie efektem krzyżowania osobników, chociaż mogą też wynikać z mutacji-- losowych, niewielkich zmian genotypu.
+
+Algorytm rozpoczyna wybranie losowo pewnej populacji. Na podstawie ich dopasowania do środowiska, dokonywana jest selekcja-- najlepszym osobnikom umożliwia się reprodukcję. Genotypy wybranych osobników poddawane są krzyżowaniu, a dodatkowo losowo wprowadzane są mutacje. W ten sposób powstaje kolejne pokolenie, potencjalnie doskonalsze. Utrzymanie stałej liczby osobników w populacji umożliwia usuwanie najsłabszych osobników, ocenianych na podstawie fenotypu (funkcji go oceniającej). Jeśli nie zostanie spełnione kryterium stopu, powraca się do procesu reprodukcji.
+
+Modyfikacje algorytmu ewolucyjnego uwzględniają różne definicje operacji krzyżowania, mutacji oraz selekcji. To co charakteryzuje tego typu algorytmy to szybkiego, równoległego przeszukiwania przestrzeni oraz uniknięcie pułapek minimum lokalnego.
+
+
+\subsection{Reguły asocjacyjne}
+\label{subsec:rules}
+Do interpretacji uzyskanych wyników, wykorzystany zostanie algorytm \emph{apriori} do indukcji reguł asocjacyjnych~\cite{agrawal1996fast}. Reguły asocjacyjne opisują cechy zbioru danych powiązanych ze sobą w~pewien sposób. Każda reguła ma postać:
+
+\begin{center}
+    Jeżeli \emph{poprzednik}, to \emph{następnik} 
+\end{center}
+
+Z~każdą regułą można związać dwie miary: wsparcia oraz ufności. Miara wsparcia opisuje jak często w~danym zbiorze danych, w~jednej transakcji, występują zarówno poprzednik oraz następnik reguły. Ufność reguły opisuje prawdopodobieństwo warunkowe pojawienia się następnika reguły, pod warunkiem że wystąpił jej poprzednik.
+
+Podstawowym algorytmem automatycznej indukcji reguł asocjacyjnych jest algorytm \emph{apriori}. Opiera się on na generacji częstych zbiorów, których wsparcie jest większe niż założony próg. Algorytm generuje drzewo zbiorów, odcinając co iterację wszystkie zbiory uznane za nieczęste. Dzięki przycinaniu, algorytm znacząco zmniejsza liczbę przejść przez cały zbiór danych w~celu policzenia wsparcia.
+
+Aby wygenerować reguły asocjacyjne ze zbioru danych numerycznych, należy te dane zdyskretyzować oraz zamienić do formatu transakcyjnego. Zdecydowaliśmy się na wprowadzenie wprowadzenie sztucznego podziału wartości $$U = \{maly, sredni, duzy\},$$
+dzięki czemu otrzymane reguły będą czytelne i~proste do interpretacji~\cite{agrawal1996fast}.

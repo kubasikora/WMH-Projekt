@@ -1,0 +1,110 @@
+\section{Badanie wpływu parametrów funkcji jądrowych na wskaźniki jakości modelu}
+\label{sec:parametry}
+
+Przeszukiwanie zupełne po przestrzeni parametrów, wraz z~5-krotną walidacją krzyżową zostało wykonane przy użyciu modułu \texttt{sklearn.model\_{}selection}, który udostępnia obiekt GridSearchCV. Na wejściu obiektu, podawany jest słownik z~parametrami, w~którym kluczem słownika jest nazwa parametru, natomiast wartością jest lista badanych parametrów. Podawane wartości różniły się między sobą o~rzędy wielkości, tak aby zbadać efektywnie jak największą przestrzeń.
+
+\begin{lstlisting}[language=Python, captionpos=b, caption=Nagłówek klasy \texttt{GridSearchCV}]
+class model_selection.GridSearchCV(
+      estimator, param_grid, *, 
+      scoring=None, n_jobs=None, 
+      refit=True, cv=None, verbose=0, 
+      pre_dispatch='2*n_jobs',
+      error_score=nan, 
+      return_train_score=False)
+\end{lstlisting}
+
+Generacja reguł asocjacyjnych zostanie wyjątkowo wykonana za pomocą języka R, wykorzystując do tego funkcję \textbf{apriori} z~pakietu~\textbf{arules}~\cite{arules}.
+
+\begin{lstlisting}[language=R, captionpos=b, caption=Nagłówek funkcji \texttt{apriori}]
+arules::apriori(data, 
+                parameter = NULL, 
+                appearance = NULL, 
+                control = NULL)
+\end{lstlisting}
+
+
+Przeprowadziliśmy badania czterech funkcji jądrowych oraz wpływu ich parametrów na trzy różne wskaźniki jakości. W~tabeli~\ref{tab:modele} porównane zostały konkretne funkcje, badane parametry oraz liczbę policzonych modeli.
+
+\begin{table}[htb]
+    \centering
+    \resizebox{\linewidth}{!}{%
+    \begin{tabular}{||c c c||} 
+        \hline
+        funkcja jądrowa & parametry & liczba modeli \\ [0.5ex]
+        \hline\hline
+        liniowa & $C$, $\varepsilon$ & 125  \\ 
+        \hline
+        rbf & $C$, $\varepsilon$, $\gamma$ & 625 \\
+        \hline
+        wielomianowa & $C$, $\varepsilon$, $d$, $c_{0}$ & 3125 \\
+        \hline
+        sigmoidalna & $C$, $\varepsilon$, $\gamma$, $c_{0}$ & 3125 \\
+        \hline 
+    \end{tabular}}
+    \caption{Porównanie parametrów badanych funkcji jądrowych oraz liczby wyuczonych modeli \label{tab:modele}}
+\end{table}
+
+Dla funkcji liniowej, która ma tylko dwa stopnie swobody, możliwym jest wykreślenie zależności danego wskaźnika jakości od parametrów $C$ oraz $\varepsilon$. Zależności te zostały wykreślone na rysunkach~\ref{fig:linear-mse} oraz~\ref{fig:linear-r2}.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.5\textwidth]{assets/linear-mse.pdf}
+    \caption{Wartość wskaźnika MSE w~zależności od $C$ oraz~$\varepsilon$}
+    \label{fig:linear-mse}
+\end{figure}
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.5\textwidth]{assets/linear-mae.pdf}
+    \caption{Wartość wskaźnika MAE w~zależności od $C$ oraz~$\varepsilon$}
+    \label{fig:linear-mae}
+\end{figure}
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.5\textwidth]{assets/linear-r2.pdf}
+    \caption{Wartość wskaźnika $R^2$ w~zależności od $C$~oraz~$\varepsilon$}
+    \label{fig:linear-r2}
+\end{figure}
+
+Dla wyników przeszukiwania odnoszących się do pozostałych funkcji jądrowych, z~racji zbyt dużej wymiarowości, wygenerowane zostały reguły asocjacyjne. Najciekawsze reguły zostały przedstawione w tabeli~\ref{tab:reguly}.
+
+Kod realizujący przeszukiwanie zupełne po podanej przestrzeni parametrów został zamieszczony w~notatniku \texttt{Projekt-WMH.ipynb} natomiast analiza wyników została przeprowadzona w~notatniku \texttt{GridSearchResults.ipynb}. Indukcja reguł odbyła się przy użyciu języka~R, skrypt wykonujący to zadanie można znaleźć pod ścieżką \texttt{rules-induction/rules.R}.
+
+\begin{table*}[t]
+    \centering
+    \resizebox{\linewidth}{!}{%
+    \begin{tabular}{||c c c c||} 
+        \hline
+        poprzednik & następnik & wsparcie & ufność \\ [0.5ex]
+        \hline\hline
+        kernel=linear, C=small, epsilon=small & mean\_{}train\_{}mse=big & 0,133 & 0,666 \\ 
+        \hline
+        kernel=linear, C=small, epsilon=small & mean\_{}train\_{}mae=big & 0,133 & 0,666 \\ 
+        \hline
+        kernel=linear, C=small, epsilon=small & mean\_{}train\_{}r2=big & 0,133 & 0,666 \\ 
+        \hline
+        kernel=poly, C=big, coef0=small, degree=big, epsilon=small & mean\_{}test\_{}mae=small & 0,075 & 1,0 \\ 
+        \hline
+        kernel=poly, C=small, coef0=big, degree=small, epsilon=small & mean\_{}test\_{}mae=big & 0,05 & 1,0 \\ 
+        \hline
+        kernel=poly, C=big, coef0=big, degree=big, epsilon=small & mean\_{}fit\_{}time=big & 0,05 & 0,666 \\
+        \hline
+        kernel=rbf, C=big, epsilon=small, gamma=big & mean\_{}train\_{}mae=big & 0,144 & 1,0 \\
+        \hline
+        kernel=rbf, C=big, epsilon=small, gamma=big & mean\_{}test\_{}r2=big & 0,144 & 1,0 \\
+        \hline
+        kernel=rbf, C=big, epsilon=small, gamma=big & mean\_{}fit\_{}time=big & 0,144 & 1,0 \\
+        \hline
+        kernel=sigmoid, C=big, epsilon=small, coef0=small & mean\_{}train\_{}r2=big & 0,072 & 0,75 \\
+        \hline
+        kernel=sigmoid, C=small, epsilon=small, coef0=big & mean\_{}train\_{}mae=big & 0,064 & 0,666 \\
+        \hline
+        kernel=sigmoid, C=small, epsilon=small, gamma=small & mean\_{}fit\_{}time=big & 0,064 & 0,666 \\
+        \hline
+    \end{tabular}}
+\caption{Najciekawsze odnalezione reguły asocjacyjne \label{tab:reguly}}
+\end{table*}
+
+Na podstawie tabeli~\ref{tab:reguly} można wyciągnąć wiele wniosków na temat wpływu parametrów modelu na jego jakość. Dla liniowej funkcji jądrowej, lepsze rezultaty uzyskamy przy mniejszych wartościach parametru $\varepsilon$, natomiast sama wartość parametru $C$, nie wpływa znacząco na wskaźniki jakości. 
+Dla funkcji wielomianowej, wysoki zadany stopień wielomianu, znacznie utrudnia dopasowanie wektorów, co sprawia że średni czas uczenia jest bardzo duży. 
